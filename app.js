@@ -22,10 +22,17 @@ const game = () => {
 	playerAmount.data = prompt("\t\t\t     New game : \n\n Enter an amount number of money to start : \n\n");
 	let firstPlayerCard = getRandomCard();
 	let secondPlayerCard = getRandomCard();
-	playerFirstCardNumber.data = firstPlayerCard[0];
-	playerFirstCardSymbol.data = firstPlayerCard[1];
-	playerSecondCardNumber.data = secondPlayerCard[0];
-	playerSecondCardSymbol.data = secondPlayerCard[1];
+	while (firstPlayerCard[0] != secondPlayerCard[0] && firstPlayerCard[1] != secondPlayerCard[1]) {
+		if (firstPlayerCard[0] != secondPlayerCard[0] && firstPlayerCard[1] != secondPlayerCard[1]) {
+			playerFirstCardNumber.data = firstPlayerCard[0];
+			playerFirstCardSymbol.data = firstPlayerCard[1];
+			playerSecondCardNumber.data = secondPlayerCard[0];
+			playerSecondCardSymbol.data = secondPlayerCard[1];
+		}else {
+			firstPlayerCard = getRandomCard();
+			secondPlayerCard = getRandomCard();
+		}
+	}
 }
 
 // Main
