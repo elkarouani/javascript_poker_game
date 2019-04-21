@@ -14,6 +14,9 @@ const tableFourthCardNumber = document.getElementById("tableFourthCardNumber").f
 const tableFourthCardSymbol = document.getElementById("tableFourthCardSymbol").firstChild;
 const tableFifthCardNumber = document.getElementById("tableFifthCardNumber").firstChild;
 const tableFifthCardSymbol = document.getElementById("tableFifthCardSymbol").firstChild;
+const Call = document.getElementById("Call");
+const Raise = document.getElementById("Raise");
+const pot = document.getElementById("pot").firstChild;
 const cardsMap = [
 				[ "♣", ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"] ],
 				[ "♥", ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"] ],
@@ -72,3 +75,8 @@ const game = () => {
 game();
 
 // Events
+Call.addEventListener("click", (event)=>{
+	pot.data = parseInt(pot.data) + parseInt(playerAmount.data) * 1/20 ;
+	playerAmount.data = parseInt(playerAmount.data) - parseInt(playerAmount.data) * 1/20 ;
+	// appearNextCard();
+})
