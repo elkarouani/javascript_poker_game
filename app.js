@@ -14,15 +14,18 @@ const tableFourthCardNumber = document.getElementById("tableFourthCardNumber").f
 const tableFourthCardSymbol = document.getElementById("tableFourthCardSymbol").firstChild;
 const tableFifthCardNumber = document.getElementById("tableFifthCardNumber").firstChild;
 const tableFifthCardSymbol = document.getElementById("tableFifthCardSymbol").firstChild;
+
 const Call = document.getElementById("Call");
 const Raise = document.getElementById("Raise");
 const pot = document.getElementById("pot").firstChild;
+
 const cardsMap = [
 				[ "♣", ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"] ],
 				[ "♥", ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"] ],
 				[ "♦", ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"] ],
 				[ "♠", ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"] ]
 				];
+const playerCards = [];
 
 // Methods
 const getRandomCard = () => {
@@ -53,8 +56,7 @@ const generateTableCards = () => {
 			JSON.stringify(secondTableCard)==JSON.stringify(thirdTableCard))
 }
 
-const game = () => {
-	playerAmount.data = prompt("\t\t\t     New game : \n\n Enter an amount number of money to start : \n\n");
+const playerGetCards = () => {
 	let firstPlayerCard = getRandomCard();
 	let secondPlayerCard = getRandomCard();
 	do {
@@ -66,12 +68,21 @@ const game = () => {
 		} else {firstPlayerCard = getRandomCard();secondPlayerCard = getRandomCard();}
 
 	} while (JSON.stringify(firstPlayerCard)==JSON.stringify(secondPlayerCard))
+}
 
+/*const appearNextCard = () => {
+	let fourthTableCard = getRandomCard();
+
+
+}
+*/
+const game = () => {
+	playerAmount.data = prompt("\t\t\t     New game : \n\n Enter an amount number of money to start : \n\n");
+	playerGetCards();
 	generateTableCards();
 }
 
 // Main
-// console.log(JSON.stringify(table1)==JSON.stringify(table2));
 game();
 
 // Events
