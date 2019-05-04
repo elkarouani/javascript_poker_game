@@ -25,7 +25,8 @@ const cardsMap = [
 				[ "♦", ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"] ],
 				[ "♠", ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"] ]
 				];
-const playerCards = [];
+let playerCards = [];
+let tableCards = [];
 
 // Methods
 const getRandomCard = () => {
@@ -43,12 +44,21 @@ const generateTableCards = () => {
 		if(JSON.stringify(firstTableCard)!=JSON.stringify(secondTableCard) &&
 			JSON.stringify(firstTableCard)!=JSON.stringify(thirdTableCard) &&
 			JSON.stringify(secondTableCard)!=JSON.stringify(thirdTableCard)) {
-			tableFirstCardNumber.data = firstTableCard[0];
-			tableFirstCardSymbol.data = firstTableCard[1];
-			tableSecondCardNumber.data = secondTableCard[0];
-			tableSecondCardSymbol.data = secondTableCard[1];
-			tableThirdCardNumber.data = thirdTableCard[0];
-			tableThirdCardSymbol.data = thirdTableCard[1];
+
+			tableCards = {
+							'first_card': {'number': firstTableCard[0], 'symbol': firstTableCard[1]},
+							'second_card': {'number': secondTableCard[0], 'symbol': secondTableCard[1]},
+							'third_card': {'number': thirdTableCard[0], 'symbol': thirdTableCard[1]}
+						}
+
+			let {first_card, second_card, third_card} = tableCards;
+
+			tableFirstCardNumber.data = first_card.number;
+			tableFirstCardSymbol.data = first_card.symbol;
+			tableSecondCardNumber.data = second_card.number;
+			tableSecondCardSymbol.data = second_card.symbol;
+			tableThirdCardNumber.data = third_card.number;
+			tableThirdCardSymbol.data = third_card.symbol;
 		} else {firstPlayerCard = getRandomCard();secondPlayerCard = getRandomCard();}
 
 	} while (JSON.stringify(firstTableCard)==JSON.stringify(secondTableCard) &&
@@ -61,21 +71,39 @@ const playerGetCards = () => {
 	let secondPlayerCard = getRandomCard();
 	do {
 		if(JSON.stringify(firstPlayerCard)!=JSON.stringify(secondPlayerCard)) {
-			playerFirstCardNumber.data = firstPlayerCard[0];
-			playerFirstCardSymbol.data = firstPlayerCard[1];
-			playerSecondCardNumber.data = secondPlayerCard[0];
-			playerSecondCardSymbol.data = secondPlayerCard[1];
+			playerCards = {'first_card': {'number': firstPlayerCard[0],'symbol': firstPlayerCard[1]},'second_card': {'number': secondPlayerCard[0],'symbol': secondPlayerCard[1]}};
+			
+			let {first_card, second_card} = playerCards;
+			playerFirstCardNumber.data = first_card.number;
+			playerFirstCardSymbol.data = first_card.symbol;
+			playerSecondCardNumber.data = second_card.number;
+			playerSecondCardSymbol.data = second_card.symbol;
+
 		} else {firstPlayerCard = getRandomCard();secondPlayerCard = getRandomCard();}
 
 	} while (JSON.stringify(firstPlayerCard)==JSON.stringify(secondPlayerCard))
 }
 
-/*const appearNextCard = () => {
-	let fourthTableCard = getRandomCard();
+const appearNextCard = () => {
+	let card_doesnt_exist_on_table = true;
+	let fourthTableCard = [];
+	do {
+		fourthTableCard = getRandomCard();
+		Object.keys(tableCards).forEach(function(rank) {
+			let {number, symbol} = tableCards[rank];
+			if(fourthTableCard[0] == number && fourthTableCard[1] == symbol){
+				card_doesnt_exist_on_table = false;
+			}
+		});
+	} while (!card_doesnt_exist_on_table)
 
-
+	if(card_doesnt_exist_on_table){
+		tableCards = {...tableCards, 'fourth_card':{'number': fourthTableCard[0],'symbol': fourthTableCard[1]}}
+		tableFourthCardNumber.data = fourthTableCard[0];
+		tableFourthCardSymbol.data = fourthTableCard[1];
+	}
 }
-*/
+
 const game = () => {
 	playerAmount.data = prompt("\t\t\t     New game : \n\n Enter an amount number of money to start : \n\n");
 	playerGetCards();
@@ -89,5 +117,5 @@ game();
 Call.addEventListener("click", (event)=>{
 	pot.data = parseInt(pot.data) + parseInt(playerAmount.data) * 1/20 ;
 	playerAmount.data = parseInt(playerAmount.data) - parseInt(playerAmount.data) * 1/20 ;
-	// appearNextCard();
+	appearNextCard();
 })
